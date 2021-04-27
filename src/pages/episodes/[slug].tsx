@@ -6,6 +6,7 @@ import { format, parseISO } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { convertDurationToTimeString } from "../../utils/convertDurationToTimeString";
 import styles from "./episode.module.scss";
+import { usePlayer } from "../../contexts/PlayerContext";
 
 type Episode = {
   id: string;
@@ -13,7 +14,7 @@ type Episode = {
   thumbnail: string;
   description: string;
   members: string;
-  duration: string;
+  duration: number;
   durationAsString: string;
   url: string;
   publishedAt: string;
@@ -24,6 +25,7 @@ type EpisodeProps = {
 };
 
 export default function Episode({ episode }: EpisodeProps) {
+  const { handlePlay } = usePlayer();
   return (
     <div className={styles.episode}>
       <div className={styles.thumbnailContainer}>
@@ -39,7 +41,7 @@ export default function Episode({ episode }: EpisodeProps) {
           alt={episode.title}
           objectFit="cover"
         />
-        <button type="button">
+        <button type="button" onClick={() => handlePlay(episode)}>
           <img src="/play.svg" alt="Tocar episódio" />
         </button>
       </div>
